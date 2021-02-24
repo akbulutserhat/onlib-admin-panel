@@ -12,6 +12,8 @@ const bookReducer = (state = initState, action) => {
   switch (action.type) {
     case bookTypes.GET_BOOKS_REQUEST:
     case bookTypes.ADD_BOOK_REQUEST:
+    case bookTypes.DELETE_BOOK_REQUEST:
+    case bookTypes.UPDATE_BOOK_REQUEST:
       return {
         ...state,
         isLoading: true,
@@ -27,8 +29,24 @@ const bookReducer = (state = initState, action) => {
       return {
         ...state,
         isLoading: false,
-        books: [...state.books, action.payload.data],
+        //books: [...state.books, action.payload.data],
         count: state.count + 1,
+        successMessage: action.payload.message,
+      };
+    case bookTypes.DELETE_BOOK_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        books: state.books.filter(
+          (book) => book._id != action.payload.data._id
+        ),
+        count: state.count - 1,
+        successMessage: action.payload.message,
+      };
+    case bookTypes.UPDATE_BOOK_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
         successMessage: action.payload.message,
       };
     case bookTypes.BOOK_ERROR:

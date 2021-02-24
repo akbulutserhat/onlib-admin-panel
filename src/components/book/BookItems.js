@@ -1,15 +1,30 @@
+import Alert from '../utils/Alert';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getBooks, addBook } from '../../store/modules/book/book.action';
+import {
+  getBooks,
+  addBook,
+  deleteBook,
+  updateBook,
+} from '../../store/modules/book/book.action';
 
 const BookItems = () => {
   const [page, setPage] = useState(0);
   const [pageSize, setPageSize] = useState(6);
   const [pageCount, setPageCount] = useState(1);
-  const [openModal, setOpenModal] = useState(false);
+  const [openCraeteModal, setopenCraeteModal] = useState(false);
+  const [openUpdateModal, setOpenUpdateModal] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
+  const [confirmationBoxInfo, setConfirmationBoxInfo] = useState({
+    id: null,
+    open: false,
+    xCoordinate: 0,
+    yCoordinate: 0,
+  });
   let [formData, setFormData] = useState();
+  const [updateFormData, setUpdateFormData] = useState();
   const bookState = useSelector((state) => state.Book);
-  const { books, count } = bookState;
+  const { books, count, isLoading, successMessage } = bookState;
   const dispatch = useDispatch();
 
   const headerAttributes = ['Item', 'Category', 'Author'];
@@ -29,14 +44,56 @@ const BookItems = () => {
     </tr>
   );
 
+  const handleShowConfirmBox = (id, e) => {
+    setConfirmationBoxInfo({
+      id,
+      open: true,
+      xCoordinate: e.pageX,
+      yCoordinate: e.pageY,
+    });
+  };
+
+  const handleDeleteBook = () => {
+    dispatch(deleteBook({ bookId: confirmationBoxInfo.id }));
+    setConfirmationBoxInfo({
+      open: false,
+    });
+  };
+
+  const confirmationBox = (
+    <div
+      className='confirm-box-card'
+      style={{
+        position: 'absolute',
+        top: confirmationBoxInfo.yCoordinate - 65 - 6,
+        left: confirmationBoxInfo.xCoordinate - 166 + 10,
+      }}>
+      <span>Are you sure for delete?</span>
+      <div className='button-group mt-2'>
+        <button onClick={handleDeleteBook} className='button button__blue mr-2'>
+          Yes
+        </button>
+        <button
+          className='button button__white'
+          onClick={() =>
+            setConfirmationBoxInfo({
+              open: false,
+            })
+          }>
+          No
+        </button>
+      </div>
+    </div>
+  );
+
   const fillTableBody =
     books.length == 0 ? (
       <tr>
-        <td>There is no items</td>
+        <td colSpan='4'>There is no items</td>
       </tr>
     ) : (
       books.map((book, index) => {
-        const { image, title, categories, author } = book;
+        const { _id, image, title, categories, author } = book;
         return (
           <tr key={index}>
             <td className='d-flex align-items-center'>
@@ -51,24 +108,45 @@ const BookItems = () => {
             </td>
             <td>{author}</td>
             <td>
-              <div className='custom-dropdown-menu'>
-                <button className='button button__transparent'>
-                  <i className='fas fa-ellipsis-h'></i>
+              <div className='action-buttons'>
+                <button
+                  onClick={() => handleUpdateModal(book)}
+                  className='button button__transparent mr-1'>
+                  <i className='fas fa-edit text-primary'></i>
                 </button>
-                <div className='dropdown'>
-                  <ul>
-                    <li>Option 1</li>
-                    <li>Option 2</li>
-                    <li>Option 3</li>
-                    <li>Option 4</li>
-                  </ul>
-                </div>
+                <button
+                  onClick={(e) => handleShowConfirmBox(_id, e)}
+                  className='button button__transparent'>
+                  <i className='fas fa-trash text-danger'></i>
+                </button>
               </div>
             </td>
           </tr>
         );
       })
     );
+
+  const handleUpdateModal = (book) => {
+    const {
+      title,
+      author,
+      image,
+      readLink,
+      descriptions,
+      categories,
+      _id,
+    } = book;
+    setUpdateFormData({
+      title,
+      author,
+      image,
+      readLink,
+      descriptions,
+      categories,
+      id: _id,
+    });
+    setOpenUpdateModal(true);
+  };
 
   const fillTableFoot = (
     <tr>
@@ -136,13 +214,17 @@ const BookItems = () => {
     if (typeof categories == 'string') categories = categories.split(',');
     formData = { ...formData, categories };
     dispatch(addBook({ formData }));
+    setShowAlert(true);
+    e.target.reset();
   };
 
   const createBookModal = (
     <>
       <div className='modal-overlay'></div>
       <div className='custom-modal'>
-        <button onClick={() => setOpenModal(false)} className='close-button'>
+        <button
+          onClick={() => setopenCraeteModal(false)}
+          className='close-button'>
           Close X
         </button>
         <div className='modal-guts'>
@@ -151,7 +233,7 @@ const BookItems = () => {
           </div>
           <div className='divider'></div>
           <div className='form-section'>
-            <form onSubmit={handleSubmitCreateBookForm}>
+            <form onSubmit={handleSubmitCreateBookForm} className='mb-3'>
               <div className='form-item'>
                 <label>Title (Required)</label>
                 <input
@@ -199,17 +281,109 @@ const BookItems = () => {
               </div>
               <div className='button-group'>
                 <button
-                  onClick={() => setOpenModal(false)}
+                  onClick={() => setopenCraeteModal(false)}
                   className='button button__white button__small mr-3'>
                   Cancel
                 </button>
                 <button
                   type='submit'
                   className='button button__blue button__small'>
-                  Create
+                  {isLoading ? 'Loading ...' : 'Create'}
                 </button>
               </div>
             </form>
+            {showAlert && successMessage && (
+              <Alert
+                msg={successMessage}
+                closeAlert={() => setShowAlert(false)}></Alert>
+            )}
+          </div>
+        </div>
+      </div>
+    </>
+  );
+
+  const handleUpdateChange = (e) => {
+    setUpdateFormData({
+      ...updateFormData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const formItems = Object.entries(updateFormData ? updateFormData : {}).map(
+    (entry, index) => {
+      if (entry[0] == 'id') return;
+      if (entry[0] == 'descriptions') {
+        return (
+          <div className='form-item' key={index}>
+            <label>{entry[0]}</label>
+            <textarea
+              name={entry[0]}
+              rows='4'
+              onChange={handleUpdateChange}
+              autoComplete='off'
+              value={entry[1]}
+            />
+          </div>
+        );
+      }
+      return (
+        <div className='form-item' key={index}>
+          <label>{entry[0]}</label>
+          <input
+            name={entry[0]}
+            onChange={handleUpdateChange}
+            autoComplete='off'
+            value={entry[1]}
+          />
+        </div>
+      );
+    }
+  );
+
+  const handleSubmitUpdateBook = (e) => {
+    e.preventDefault();
+    dispatch(
+      updateBook({ bookId: updateFormData.id, updateData: updateFormData })
+    );
+    setShowAlert(true);
+  };
+
+  const updateModal = (
+    <>
+      <div className='modal-overlay'></div>
+      <div className='custom-modal'>
+        <button
+          onClick={() => setOpenUpdateModal(false)}
+          className='close-button'>
+          Close X
+        </button>
+        <div className='modal-guts'>
+          <div className='modal-title'>
+            <span>Update Book</span>
+          </div>
+          <div className='divider'></div>
+          <div className='form-section'>
+            <form onSubmit={handleSubmitUpdateBook} className='mb-3'>
+              {formItems}
+              <div className='button-group'>
+                <button
+                  onClick={() => setOpenUpdateModal(false)}
+                  className='button button__white button__small mr-3'>
+                  Cancel
+                </button>
+                <button
+                  type='submit'
+                  className='button button__blue button__small'>
+                  {isLoading ? 'Loading ...' : 'Update'}
+                </button>
+              </div>
+            </form>
+            {showAlert && successMessage && (
+              <Alert
+                msg={successMessage}
+                closeAlert={() => setShowAlert(false)}></Alert>
+            )}
           </div>
         </div>
       </div>
@@ -234,7 +408,7 @@ const BookItems = () => {
         </div>
         <div className='button-group'>
           <button
-            onClick={() => setOpenModal(true)}
+            onClick={() => setopenCraeteModal(true)}
             className='button button__blue button__big'>
             Create Book
           </button>
@@ -247,7 +421,9 @@ const BookItems = () => {
           <tfoot>{fillTableFoot}</tfoot>
         </table>
       </div>
-      {openModal ? createBookModal : ''}
+      {openCraeteModal && createBookModal}
+      {confirmationBoxInfo.open && confirmationBox}
+      {openUpdateModal && updateModal}
     </div>
   );
 };

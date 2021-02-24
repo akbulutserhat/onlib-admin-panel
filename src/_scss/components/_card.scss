@@ -12,3 +12,16 @@
     height: 120px;
   }
 }
+
+.confirm-box-card {
+  padding: 8px;
+  background: $white;
+  border: 1px solid $primaryBlue;
+  border-radius: 2px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 166px;
+  animation: showInFade 0.8s;
+}

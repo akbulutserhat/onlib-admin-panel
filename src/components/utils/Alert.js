@@ -1,16 +1,15 @@
-const Alert = ({ msg }) => {
-    return (
-      <div className='alert alert-info alert-dismissible fade show' role='alert'>
-        {msg}
-        <button
-          type='button'
-          className='close'
-          data-dismiss='alert'
-          aria-label='Close'
-        >
-        </button>
-      </div>
-    );
-  };
-  
-  export default Alert;
+const Alert = ({ msg, closeAlert }) => {
+  return (
+    <div
+      className='alert alert-success alert-dismissible fade show 
+      d-flex justify-content-between align-items-center'
+      role='alert'>
+      <span>{msg}</span>
+      <button onClick={closeAlert} className='button button__icon button__blue'>
+        X
+      </button>
+    </div>
+  );
+};
+
+export default Alert;

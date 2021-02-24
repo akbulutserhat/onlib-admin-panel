@@ -5,6 +5,10 @@ textarea {
   outline: none;
   padding: 4px 8px;
   width: 100%;
+
+  &:focus {
+    outline: 1px solid $primaryBlue;
+  }
 }
 
 label {

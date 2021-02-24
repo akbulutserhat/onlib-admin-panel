@@ -7,6 +7,7 @@
   z-index: 50;
 
   background: rgba(0, 0, 0, 0.6);
+  animation: showInFade 0.8s;
 }
 
 .custom-modal {
@@ -36,6 +37,8 @@
   //box-shadow: 0 0 30px 2px rgba($electric-green,.5);
 
   position: absolute;
+
+  animation: showInFade 1s;
 
   .close-button {
     position: absolute;
