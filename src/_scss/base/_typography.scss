@@ -1,0 +1,45 @@
+html,
+body {
+  font-family: $fontFamily, sans-serif;
+  font-weight: normal;
+  color: $black;
+  line-height: $baseLineHeight;
+
+  @media only screen and (min-width: $smallBreakpoint) {
+    font-size: 12px;
+  }
+
+  @media only screen and (min-width: $largeBreakpoint) {
+    font-size: $baseFontSize;
+  }
+}
+
+// Header Styles
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: bold;
+  margin: 0;
+  line-height: $headingLineHeight;
+  a {
+    font-weight: inherit;
+  }
+}
+
+h1 {
+  font-size: $h1Size;
+}
+
+// Text Styles
+em {
+  font-style: italic;
+}
+strong {
+  font-weight: bold;
+}
+.uppercase {
+  text-transform: uppercase;
+}

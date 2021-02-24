@@ -1,0 +1,62 @@
+.button {
+  outline: none;
+  border: none;
+  border-radius: 3px;
+
+  &:disabled {
+    background: $textGrey;
+
+    &:hover {
+      background: $textGrey;
+    }
+  }
+
+  &__transparent {
+    background: transparent;
+  }
+
+  &__blue {
+    background: $primaryBlue;
+    color: $white;
+
+    &:hover {
+      background: darken($primaryBlue, 10);
+    }
+  }
+
+  &__green {
+    background: $primaryGreen;
+    color: $white;
+
+    &:hover {
+      background: darken($primaryGreen, 10);
+    }
+  }
+
+  &__white {
+    background: $bgGray;
+    border: 1px solid $textGrey;
+
+    &:hover {
+      background: darken($bgGray, 10);
+    }
+  }
+
+  &__big {
+    font-size: 12px;
+    padding: 6px 15px;
+  }
+
+  &__small {
+    font-size: 10px;
+    padding: 10px 22px;
+  }
+
+  &__icon {
+    padding: 6px 8px;
+  }
+
+  &:focus {
+    outline: none;
+  }
+}

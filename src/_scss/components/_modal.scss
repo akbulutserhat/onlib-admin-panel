@@ -1,0 +1,86 @@
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 50;
+
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.custom-modal {
+  /* This way it could be display flex or grid or whatever also. */
+  display: block;
+
+  /* Probably need media queries here */
+
+  max-width: 100%;
+
+  max-height: 100%;
+
+  //position: fixed;
+
+  width: 32%;
+  height: 100%;
+
+  z-index: 100;
+
+  right: 0;
+  top: 0;
+
+  /* for centering if unknown width/height */
+  //transform: translate(-5%, -50%);
+
+  background: $white;
+  //box-shadow: 0 0 30px 2px rgba($electric-green,.5);
+
+  position: absolute;
+
+  .close-button {
+    position: absolute;
+    z-index: 1;
+    letter-spacing: 0.8px;
+
+    transform: rotate(-90deg);
+
+    top: 26px;
+
+    left: -50px;
+
+    border: 0;
+    outline: 0;
+    background: none;
+    color: $bgGray;
+  }
+
+  .modal-guts {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    //padding: 20px;
+    font-size: 12px;
+
+    .modal-title {
+      font-size: 20px;
+      //margin-bottom: 20px;
+      padding: 20px;
+    }
+
+    .divider {
+      height: 0;
+      border-bottom: 1px solid $bgGray;
+    }
+
+    .form-section {
+      padding: 20px;
+    }
+
+    .button-group {
+      text-align: end;
+    }
+  }
+}

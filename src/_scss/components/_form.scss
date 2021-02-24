@@ -1,0 +1,25 @@
+input,
+textarea {
+  border: 1px solid darken($bgGray, 10);
+  color: darken($textGrey, 36);
+  outline: none;
+  padding: 4px 8px;
+  width: 100%;
+}
+
+label {
+  color: darken($textGrey, 10);
+  letter-spacing: 0.9px;
+  font-size: 11px;
+  margin-bottom: 3px;
+}
+
+.search-input {
+  width: 220px;
+}
+
+.form-item {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
+}

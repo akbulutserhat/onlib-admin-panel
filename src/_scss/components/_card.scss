@@ -1,0 +1,14 @@
+.login-page-card {
+  padding: 28px;
+  background-color: $primaryBlue;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 0 20px 8px $primaryBlue;
+
+  img {
+    width: 120px;
+    height: 120px;
+  }
+}
