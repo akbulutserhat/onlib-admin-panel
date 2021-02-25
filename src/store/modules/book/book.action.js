@@ -40,7 +40,6 @@ export const deleteBook = ({ bookId }) => {
   return async (dispatch) => {
     dispatch({ type: bookTypes.DELETE_BOOK_REQUEST });
     try {
-      console.log(bookId);
       const res = await axios.delete(`${BOOK_API_ROUTE}/${bookId}`);
       dispatch({
         type: bookTypes.DELETE_BOOK_SUCCESS,

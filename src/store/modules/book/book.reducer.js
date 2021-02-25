@@ -47,6 +47,9 @@ const bookReducer = (state = initState, action) => {
       return {
         ...state,
         isLoading: false,
+        books: state.books.map((book) =>
+          book._id == action.payload.data._id ? action.payload.data : book
+        ),
         successMessage: action.payload.message,
       };
     case bookTypes.BOOK_ERROR:

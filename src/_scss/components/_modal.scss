@@ -80,10 +80,21 @@
 
     .form-section {
       padding: 20px;
-    }
+      height: 88%;
 
-    .button-group {
-      text-align: end;
+      form {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+
+        .button-group {
+          height: 100%;
+          display: flex;
+          justify-content: flex-end;
+          align-items: flex-end;
+          margin-bottom: 14px;
+        }
+      }
     }
   }
 }
