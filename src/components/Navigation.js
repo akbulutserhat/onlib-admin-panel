@@ -54,16 +54,16 @@ const Navigation = ({ hamburgerOpen, closeMenu }) => {
               <span>Books</span>
             </li>
           </NavLink>
-          <NavLink exact={true} to='/'>
+          <NavLink exact={true} to='/libraries'>
             <li>
-              <i className='fas fa-users'></i>
-              <span>Users</span>
+              <i className='fas fa-hotel'></i>
+              <span>Libraries</span>
             </li>
           </NavLink>
           <NavLink exact={true} to='/'>
             <li>
-              <i className='fas fa-hotel'></i>
-              <span>Libraries</span>
+              <i className='fas fa-users'></i>
+              <span>Users</span>
             </li>
           </NavLink>
           <NavLink exact={true} to='/'>
@@ -78,7 +78,7 @@ const Navigation = ({ hamburgerOpen, closeMenu }) => {
           <Link to='/'>Settings</Link>
         </div>
       </nav>
-      {hamburgerOpen ? mobileNavigation : ''}
+      {hamburgerOpen && mobileNavigation}
     </div>
   );
 };

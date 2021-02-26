@@ -7,6 +7,7 @@ import Dashboard from './components/Dashboard';
 import Navigation from './components/Navigation';
 import Topbar from './components/Topbar';
 import Books from './components/book/BookItems';
+import Library from './components/library/LibraryItems';
 import { history } from './history';
 
 const Routes = () => {
@@ -29,6 +30,7 @@ const Routes = () => {
             <Route exact path='/' component={Dashboard} />
             <Route path='/login' component={Login} />
             <Route path='/books' render={(props) => <Books {...props} />} />
+            <Route path='/libraries' component={Library}></Route>
           </Switch>
         </div>
       </div>

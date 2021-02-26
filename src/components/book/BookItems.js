@@ -16,7 +16,6 @@ const BookItems = () => {
   const [pageCount, setPageCount] = useState(1);
   const [openCraeteModal, setOpenCreateModal] = useState(false);
   const [openUpdateModal, setOpenUpdateModal] = useState(false);
-  const [showAlert, setShowAlert] = useState(false);
   const [confirmationBoxInfo, setConfirmationBoxInfo] = useState({
     id: null,
     open: false,
@@ -30,7 +29,9 @@ const BookItems = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getBooks({ page, limit: pageSize }));
-    setPageCount(Math.ceil(count / pageSize));
+    setPageCount(
+      Math.ceil(count / pageSize) == 0 ? 1 : Math.ceil(count / pageSize)
+    );
   }, [pageSize, page, pageCount, count]);
 
   const handleSubmitCreateBookForm = (e) => {
@@ -112,7 +113,6 @@ const BookItems = () => {
     dispatch(
       updateBook({ bookId: updateFormData.id, updateData: updateFormData })
     );
-    setShowAlert(true);
   };
 
   return (
