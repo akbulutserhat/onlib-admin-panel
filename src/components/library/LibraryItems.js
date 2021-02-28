@@ -6,9 +6,10 @@ import {
   deleteLibrary,
   updateLibrary,
 } from '../../store/modules/library/library.action';
-import CreateLibraryModal from './CreateLibraryModal';
+import CreateLibraryModal from './forms/CreateLibraryModal';
 import Table from './Table';
-import UpdateLibraryModal from './UpdateLibraryModal';
+import UpdateLibraryModal from './forms/UpdateLibraryModal';
+import ActionBar from '../utils/ActionBar';
 
 const LibraryItems = () => {
   const [openCreateModal, setOpenCreateModal] = useState(false);
@@ -105,28 +106,9 @@ const LibraryItems = () => {
 
   return (
     <div className='book-items'>
-      <div className='action-bar'>
-        <div className='search-bar'>
-          <form>
-            <input
-              className='search-input'
-              name='search'
-              type='text'
-              placeholder='Search'
-              autoComplete='off'></input>
-            <button type='submit' className='button button__blue button__icon'>
-              <i className='fas fa-search'></i>
-            </button>
-          </form>
-        </div>
-        <div className='button-group'>
-          <button
-            onClick={() => setOpenCreateModal(true)}
-            className='button button__blue button__big'>
-            Create Library
-          </button>
-        </div>
-      </div>
+      <ActionBar
+        openCreateModal={() => setOpenCreateModal(true)}
+        pageName='Library'></ActionBar>
       <Table
         libraries={libraries}
         handleShowConfirmBox={handleShowConfirmBox}

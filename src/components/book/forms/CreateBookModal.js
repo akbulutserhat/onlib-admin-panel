@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import Alert from '../utils/Alert';
+import Alert from '../../utils/Alert';
 
 const CreateBookModal = ({
   successMessage,

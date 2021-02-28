@@ -7,13 +7,13 @@ import {
   updateBook,
 } from '../../store/modules/book/book.action';
 import Table from './Table';
-import CreateBookModal from './CreateBookModal';
-import UpdateBookModal from './UpdateBookModal';
+import CreateBookModal from './forms/CreateBookModal';
+import UpdateBookModal from './forms/UpdateBookModal';
+import ActionBar from '../utils/ActionBar';
 
 const BookItems = () => {
   let [page, setPage] = useState(0);
   const [pageSize, setPageSize] = useState(6);
-  const [pageCount, setPageCount] = useState(1);
   const [openCraeteModal, setOpenCreateModal] = useState(false);
   const [openUpdateModal, setOpenUpdateModal] = useState(false);
   const [confirmationBoxInfo, setConfirmationBoxInfo] = useState({
@@ -26,13 +26,12 @@ const BookItems = () => {
   const [updateFormData, setUpdateFormData] = useState();
   const bookState = useSelector((state) => state.Book);
   const { books, count, isLoading, successMessage } = bookState;
+  const pageCount =
+    Math.ceil(count / pageSize) == 0 ? 1 : Math.ceil(count / pageSize);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getBooks({ page, limit: pageSize }));
-    setPageCount(
-      Math.ceil(count / pageSize) == 0 ? 1 : Math.ceil(count / pageSize)
-    );
-  }, [pageSize, page, pageCount, count]);
+  }, [pageSize, page]);
 
   const handleSubmitCreateBookForm = (e) => {
     e.preventDefault();
@@ -117,40 +116,23 @@ const BookItems = () => {
 
   return (
     <div className='book-items'>
-      <div className='action-bar'>
-        <div className='search-bar'>
-          <form>
-            <input
-              className='search-input'
-              name='search'
-              type='text'
-              placeholder='Search'
-              autoComplete='off'></input>
-            <button type='submit' className='button button__blue button__icon'>
-              <i className='fas fa-search'></i>
-            </button>
-          </form>
-        </div>
-        <div className='button-group'>
-          <button
-            onClick={() => setOpenCreateModal(true)}
-            className='button button__blue button__big'>
-            Create Book
-          </button>
-        </div>
-      </div>
+      <ActionBar
+        openCreateModal={() => setOpenCreateModal(true)}
+        pageName='Book'></ActionBar>
       <div className='table-responsive'>
         <Table
           books={books}
           page={page}
           pageSize={pageSize}
-          pageCount={pageCount}
+          pageCount={Math.ceil(count / pageSize)}
           setPage={setPage}
           setPageSize={setPageSize}
           handleUpdateModal={handleUpdateModal}
           handleShowConfirmBox={handleShowConfirmBox}></Table>
       </div>
+      {/* En son sayfada son eleman silindikten sonra otomatik olarak önceki sayfaya atma işlemi */}
       {page - 1 == pageCount - 1 && setPage(page - 1)}
+
       {confirmationBoxInfo.open && confirmationBox}
       {openCraeteModal && (
         <CreateBookModal

@@ -49,7 +49,7 @@ const Login = () => {
             required
           />
         </div>
-        <div className='custom-form-group mb-1'>
+        <div className='custom-form-group mb-3'>
           <label>Password</label>
           <input
             type='password'
@@ -59,7 +59,7 @@ const Login = () => {
           />
         </div>
         <button
-          className='button button__green button__large mt-4 w-100 p-1'
+          className='button button__green button__large mt-4 w-100 p-2'
           type='submit'
           disabled={user.email === '' || user.password === ''}>
           Giriş Yap
