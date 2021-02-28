@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 const Table = ({ libraries, handleUpdateModal, handleShowConfirmBox }) => {
   const headerAttributes = ['Name', 'Address', 'City'];
 
@@ -26,7 +28,16 @@ const Table = ({ libraries, handleUpdateModal, handleShowConfirmBox }) => {
           const { _id, name, address, city } = library;
           return (
             <tr key={index}>
-              <td>{name}</td>
+              <td>
+                <Link
+                  to={{
+                    pathname: '/library/' + _id,
+                    state: { prevPath: '/libraries' },
+                  }}
+                  title='Show detail of library'>
+                  {name}
+                </Link>
+              </td>
               <td>{address}</td>
               <td>{city}</td>
               <td>

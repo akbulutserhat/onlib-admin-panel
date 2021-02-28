@@ -8,6 +8,7 @@ import Navigation from './components/Navigation';
 import Topbar from './components/Topbar';
 import Books from './components/book/BookItems';
 import Library from './components/library/LibraryItems';
+import LibraryDetail from './components/library/Detail';
 import { history } from './history';
 
 const Routes = () => {
@@ -31,6 +32,7 @@ const Routes = () => {
             <Route path='/login' component={Login} />
             <Route path='/books' render={(props) => <Books {...props} />} />
             <Route path='/libraries' component={Library}></Route>
+            <Route path='/library/:id' component={LibraryDetail}></Route>
           </Switch>
         </div>
       </div>

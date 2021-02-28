@@ -9,7 +9,6 @@ export const getLibraries = () => {
     dispatch({ type: libraryTypes.GET_LIBRARIES_REQUEST });
     try {
       const res = await axios.get(`${LIBRARY_API_ROUTE}/libraries`);
-      console.log(res);
       dispatch({
         type: libraryTypes.GET_LIBRARIES_SUCCESS,
         payload: { data: res.data.data },

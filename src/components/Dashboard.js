@@ -1,9 +1,5 @@
 const Dashboard = () => {
-    return (
-      <div className = "">
-        
-      </div>
-    )
-  }
+  return <div className=''>This page will be filled at the last step.</div>;
+};
 
-  export default Dashboard;
+export default Dashboard;
