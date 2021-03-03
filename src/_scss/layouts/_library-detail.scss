@@ -1,0 +1,120 @@
+.library-detail {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  font-size: 11px;
+
+  .title {
+    padding: 4px 4px 10px 4px;
+    border-bottom: 1px solid darken($bgGray, 10);
+    margin-bottom: 6px;
+    color: darken($textGrey, 40);
+    text-align: center;
+  }
+
+  .header-labels {
+    display: flex;
+    justify-content: space-between;
+    color: $textGrey;
+    padding: 2px 8px;
+  }
+
+  .item {
+    display: flex;
+    padding: 8px;
+    margin-bottom: 4px;
+
+    align-items: center;
+    width: 100%;
+    justify-content: space-between;
+
+    &:not(:last-child) {
+      border-bottom: 1px solid darken($bgGray, 10);
+    }
+  }
+
+  .books-section {
+    height: 100%;
+    background: $white;
+    border-radius: 10px;
+    width: 100%;
+    padding: 10px;
+    margin-right: 24px;
+
+    .book-item {
+      display: flex;
+      padding: 8px;
+      margin-bottom: 4px;
+
+      align-items: center;
+      width: 100%;
+      justify-content: space-between;
+
+      &:not(:last-child) {
+        border-bottom: 1px solid darken($bgGray, 10);
+      }
+
+      .img-title {
+        display: flex;
+        align-items: center;
+
+        span {
+          margin-left: 8px;
+        }
+      }
+
+      .stock {
+        width: 80px;
+        display: flex;
+        justify-content: flex-start;
+        color: darken($textGrey, 10);
+
+        i {
+          cursor: pointer;
+          color: $primaryBlue;
+          margin-top: 2px;
+        }
+      }
+    }
+
+    img {
+      width: 40px;
+      height: 40px;
+    }
+  }
+
+  .orders-users {
+    width: 100%;
+    height: 100%;
+    padding-bottom: 20px;
+    .orders-section {
+      width: 100%;
+      height: 50%;
+      border-radius: 10px;
+      background: $white;
+      margin-bottom: 20px;
+      padding: 10px;
+
+      .id-column {
+        cursor: pointer;
+      }
+
+      .date-column {
+        padding-right: 30px;
+      }
+
+      .status-column {
+        color: $white;
+        background-color: $primaryBlue;
+      }
+    }
+
+    .users-section {
+      width: 100%;
+      height: 50%;
+      background: $white;
+      border-radius: 10px;
+      padding: 10px;
+    }
+  }
+}

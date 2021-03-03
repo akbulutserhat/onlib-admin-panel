@@ -4,10 +4,7 @@ body {
   font-weight: normal;
   color: $black;
   line-height: $baseLineHeight;
-
-  @media only screen and (min-width: $smallBreakpoint) {
-    font-size: 12px;
-  }
+  font-size: 12px;
 
   @media only screen and (min-width: $largeBreakpoint) {
     font-size: $baseFontSize;

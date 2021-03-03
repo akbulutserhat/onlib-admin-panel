@@ -8,7 +8,7 @@ import Navigation from './components/Navigation';
 import Topbar from './components/Topbar';
 import Books from './components/book/BookItems';
 import Library from './components/library/LibraryItems';
-import LibraryDetail from './components/library/Detail';
+import LibraryDetail from './components/library/detail/Detail';
 import { history } from './history';
 
 const Routes = () => {

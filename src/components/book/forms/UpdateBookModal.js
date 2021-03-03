@@ -59,7 +59,7 @@ const UpdateBookModal = ({
           <div className='form-section'>
             <form onSubmit={handleSubmitUpdateBook}>
               {formItems}
-              <div className='button-group'>
+              <div className='button-group h-100'>
                 <button
                   onClick={() => setOpenUpdateModal(false)}
                   className='button button__white button__small mr-3'>

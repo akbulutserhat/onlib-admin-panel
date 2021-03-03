@@ -78,7 +78,7 @@ const CreateBookModal = ({
                   name='categories'
                   autoComplete='off'></input>
               </div>
-              <div className='button-group'>
+              <div className='button-group h-100'>
                 <button
                   onClick={() => setOpenCraeteModal(false)}
                   className='button button__white button__small mr-3'>
