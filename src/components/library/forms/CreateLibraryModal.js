@@ -25,7 +25,7 @@ const CreateLibraryModal = ({
             <span>Create Library</span>
           </div>
           <div className='divider'></div>
-          <div className='form-section'>
+          <div className='form-section form-section__h88'>
             <form onSubmit={handleSubmitCreateLibraryForm}>
               <div className='form-item'>
                 <label>Name (Required)</label>

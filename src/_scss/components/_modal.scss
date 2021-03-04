@@ -85,12 +85,50 @@
 
     .form-section {
       padding: 20px;
-      height: 88%;
+
+      &__h88 {
+        height: 88%;
+      }
 
       form {
         display: flex;
         flex-direction: column;
         height: 100%;
+      }
+
+      .user-info {
+        padding: 6px 4px;
+        color: $textGrey;
+
+        .customer-name {
+          color: darken($textGrey, 50);
+        }
+      }
+
+      .book-list-section {
+        padding: 6px;
+        border: 1px solid $primaryBlue;
+        border-radius: 5px;
+
+        .list-title {
+          color: $primaryBlue;
+        }
+      }
+
+      .status-section {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 10px;
+        > span {
+          margin-bottom: 4px;
+          color: $primaryBlue;
+          font-weight: 700;
+        }
+        div {
+          display: inline-block;
+          text-align: center;
+        }
       }
 
       .button-group {

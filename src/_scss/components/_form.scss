@@ -27,3 +27,40 @@ label {
   flex-direction: column;
   margin-bottom: 16px;
 }
+
+input[type='radio'] {
+  display: none;
+  &:checked {
+    + .box {
+      border: 1px solid $primaryBlue;
+      background: $bgGray;
+    }
+  }
+}
+.box {
+  width: 102px;
+  height: 70px;
+  background-color: $white;
+  box-shadow: 0 0 2px 2px $textGrey;
+  border-radius: 3px;
+  transition: all 0.5s ease;
+  will-change: transition;
+  display: inline-block;
+  text-align: center;
+  cursor: pointer;
+  position: relative;
+  font-weight: 600;
+  &:active {
+    transform: translateY(10px);
+  }
+  span {
+    position: absolute;
+    transform: translate(0, 25px);
+    left: 0;
+    right: 0;
+    transition: all 300ms ease;
+    font-size: 12px;
+    user-select: none;
+    color: darken($textGrey, 20);
+  }
+}

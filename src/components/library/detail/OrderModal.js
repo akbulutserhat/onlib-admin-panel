@@ -1,8 +1,10 @@
 import { useState } from 'react';
 
 const OrderModal = ({ setOpenOrderModal, order, isLoading }) => {
-  const { _id, books, user, status } = order;
+  let { _id, books, user, status } = order;
   const [showForm, setShowForm] = useState(false);
+  const [formData, setFormData] = useState({ ssn: '', phone: '' });
+  const statusNames = ['preparing', 'ready', 'delivered', 'received'];
 
   const bookList = books?.map((book, index) => {
     const { image, title } = book;
@@ -16,6 +18,40 @@ const OrderModal = ({ setOpenOrderModal, order, isLoading }) => {
       </li>
     );
   });
+
+  const statusRadioButtons = statusNames.map((name, index) => {
+    return (
+      <label key={index} className='m-2'>
+        <input type='radio' name='radio' value={name} />
+        <div className='box'>
+          <span>{name}</span>
+        </div>
+      </label>
+    );
+  });
+
+  const clearFormData = () => {
+    setFormData(null);
+  };
+
+  const handleClickShowForm = () => {
+    setShowForm(!showForm);
+    clearFormData();
+  };
+
+  const handleOnChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleUpdateOrder = () => {
+    const checkedStatus = document.querySelector('input[type="radio"]:checked');
+    console.log(formData);
+    console.log(checkedStatus?.value);
+  };
+
   return (
     <>
       <div className='modal-overlay'></div>
@@ -32,24 +68,42 @@ const OrderModal = ({ setOpenOrderModal, order, isLoading }) => {
           </div>
           <div className='divider'></div>
           <div className='form-section'>
-            <div className='user-info'>Serhat Akbulut</div>
-            <ul className='book-list'>{bookList}</ul>
-            <div className='status-section'>{status}</div>
+            <div className='user-info'>
+              <span>Customer : </span>
+              <span className='customer-name'>Serhat Akbulut</span>
+            </div>
+            <div className='book-list-section'>
+              <span className='list-title'>Book List</span>
+              <ul className='book-list'>{bookList}</ul>
+            </div>
+
+            <div className='status-section'>
+              <span>Choose the status of order</span>
+              <div>{statusRadioButtons}</div>
+            </div>
             <button
-              className='button button__blue'
-              onClick={() => setShowForm(!showForm)}>
-              Add User
+              className='open-form-button my-3'
+              onClick={handleClickShowForm}>
+              {!showForm ? 'Open User Form' : 'Close User Form'}
             </button>
             {showForm && (
               <div className='add-user-form'>
                 <form>
                   <div className='form-item'>
                     <label>SSN</label>
-                    <input name='ssn' required autoComplete='off'></input>
+                    <input
+                      name='ssn'
+                      required
+                      autoComplete='off'
+                      onChange={handleOnChange}></input>
                   </div>
                   <div className='form-item'>
                     <label>Phone</label>
-                    <input name='phone' required autoComplete='off'></input>
+                    <input
+                      name='phone'
+                      required
+                      autoComplete='off'
+                      onChange={handleOnChange}></input>
                   </div>
                 </form>
               </div>
@@ -62,6 +116,7 @@ const OrderModal = ({ setOpenOrderModal, order, isLoading }) => {
               </button>
               <button
                 type='submit'
+                onClick={handleUpdateOrder}
                 className='button button__blue button__small'>
                 {isLoading ? 'Loading ...' : 'Confirm'}
               </button>

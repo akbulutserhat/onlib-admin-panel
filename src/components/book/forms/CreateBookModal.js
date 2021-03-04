@@ -31,7 +31,7 @@ const CreateBookModal = ({
             <span>Create Book</span>
           </div>
           <div className='divider'></div>
-          <div className='form-section'>
+          <div className='form-section form-section__h88'>
             <form onSubmit={handleSubmitCreateBookForm}>
               <div className='form-item'>
                 <label>Title (Required)</label>

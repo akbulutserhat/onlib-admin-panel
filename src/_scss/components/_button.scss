@@ -60,3 +60,15 @@
     outline: none;
   }
 }
+
+.open-form-button {
+  outline: none;
+  border: none;
+  background: transparent;
+  color: $primaryBlue;
+  border-bottom: 1px solid $primaryBlue;
+
+  &:focus {
+    outline: none;
+  }
+}

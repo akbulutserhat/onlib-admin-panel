@@ -56,7 +56,7 @@ const UpdateBookModal = ({
             <span>Update Book</span>
           </div>
           <div className='divider'></div>
-          <div className='form-section'>
+          <div className='form-section form-section__h88'>
             <form onSubmit={handleSubmitUpdateBook}>
               {formItems}
               <div className='button-group h-100'>
