@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   getLibraryDetail,
   updateBookStock,
+  deleteBookFromLibrary,
 } from '../../../store/modules/library/detail/detail.action';
 import OrderModal from './OrderModal';
 import { useParams } from 'react-router-dom';
@@ -20,8 +21,22 @@ const Detail = () => {
     yCoordinate: 0,
   });
 
+  const [deleteBookBoxInfo, setDeleteBookBoxInfo] = useState({
+    bookId: null,
+    open: false,
+    xCoordinate: 0,
+    yCoordinate: 0,
+  });
+
   const [openOrderModal, setOpenOrderModal] = useState();
   const [orderData, setOrderData] = useState();
+
+  const statusNameAndColors = [
+    { name: 'preparing', color: 'bg-warning' },
+    { name: 'ready', color: 'bg-primary' },
+    { name: 'delivered', color: 'bg-info' },
+    { name: 'received', color: 'bg-success' },
+  ];
 
   console.log(library);
   useEffect(() => {
@@ -32,6 +47,15 @@ const Detail = () => {
     setUpdateStockBoxInfo({
       bookId,
       stock,
+      open: true,
+      xCoordinate: e.pageX,
+      yCoordinate: e.pageY,
+    });
+  };
+
+  const showDeleteBookBox = (bookId, e) => {
+    setDeleteBookBoxInfo({
+      bookId,
       open: true,
       xCoordinate: e.pageX,
       yCoordinate: e.pageY,
@@ -95,8 +119,47 @@ const Detail = () => {
     </div>
   );
 
+  const handleDeleteBook = () => {
+    dispatch(
+      deleteBookFromLibrary({
+        libraryId: params.id,
+        bookId: deleteBookBoxInfo.bookId,
+      })
+    );
+    setDeleteBookBoxInfo({
+      open: false,
+    });
+  };
+
+  const deleteBookBox = (
+    <div
+      className='confirm-box-card'
+      style={{
+        position: 'absolute',
+        top: deleteBookBoxInfo.yCoordinate - 60,
+        left: deleteBookBoxInfo.xCoordinate - 166 + 20,
+      }}>
+      <span>Are you sure for delete?</span>
+      <div className='button-group mt-2'>
+        <button onClick={handleDeleteBook} className='button button__blue mr-2'>
+          Yes
+        </button>
+        <button
+          className='button button__white'
+          onClick={() =>
+            setDeleteBookBoxInfo({
+              open: false,
+            })
+          }>
+          No
+        </button>
+      </div>
+    </div>
+  );
+
   const allBooks = library?.books?.map((item, index) => {
     const { book, stock } = item;
+    if (!book) return;
     const { image, title, _id } = book;
     return (
       <div className='item book-item' key={index}>
@@ -110,6 +173,9 @@ const Detail = () => {
           <i
             className='fas fa-edit ml-3'
             onClick={(e) => showUpdateStockBox(_id, e, stock)}></i>
+          <i
+            className='fas fa-trash text-danger ml-3'
+            onClick={(e) => showDeleteBookBox(_id, e)}></i>
         </span>
       </div>
     );
@@ -121,7 +187,8 @@ const Detail = () => {
   };
 
   const allOrders = library?.orders?.map((order, index) => {
-    const { order_date, status, _id } = order;
+    let { order_date, status, _id } = order;
+    status = statusNameAndColors.filter((item) => item.name == status)[0];
     const fullDate = new Date(order_date);
     const localeDate = fullDate.toLocaleDateString();
     const localeTime = fullDate.toLocaleTimeString();
@@ -135,10 +202,34 @@ const Detail = () => {
           {' - '}
           <span>{localeTime}</span>
         </div>
-        <div className='status-column badge badge-success'>
-          <span>{status}</span>
+        <div className={`status-column badge ${status.color}`}>
+          <span>{status.name}</span>
         </div>
       </div>
+    );
+  });
+
+  const userHeaderAttributes = ['Name', 'Email', 'SSN', 'Phone'];
+
+  const fillUserTableHead = (
+    <tr>
+      {userHeaderAttributes.map((attr, index) => (
+        <th scope='col' key={index}>
+          {attr}
+        </th>
+      ))}
+    </tr>
+  );
+
+  const fillUserTableBody = library?.users?.map((user, index) => {
+    const { private_info } = user;
+    return (
+      <tr key={index}>
+        <td>{user.user.firstName}</td>
+        <td>{user.user.email}</td>
+        <td>{private_info.ssn}</td>
+        <td>{private_info.phone}</td>
+      </tr>
     );
   });
 
@@ -177,11 +268,19 @@ const Detail = () => {
               There is no user!
             </div>
           ) : (
-            ''
+            <div className='table-responsive'>
+              <table className='table table-borderless'>
+                <thead>{fillUserTableHead}</thead>
+                <tbody style={{ fontFamily: 'monospace', fontSize: '12px' }}>
+                  {fillUserTableBody}
+                </tbody>
+              </table>
+            </div>
           )}
         </div>
       </div>
       {updateStockBoxInfo.open && updateStockBox}
+      {deleteBookBoxInfo.open && deleteBookBox}
       {openOrderModal && (
         <OrderModal
           setOpenOrderModal={setOpenOrderModal}

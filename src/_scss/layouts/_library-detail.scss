@@ -64,7 +64,7 @@
       }
 
       .stock {
-        width: 80px;
+        width: 106px;
         display: flex;
         justify-content: flex-start;
         color: darken($textGrey, 10);
@@ -106,6 +106,7 @@
       .status-column {
         color: $white;
         background-color: $primaryBlue;
+        width: 60px;
       }
     }
 

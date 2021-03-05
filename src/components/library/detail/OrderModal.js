@@ -1,7 +1,15 @@
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import {
+  updateOrderStatus,
+  addUserToLibrary,
+} from '../../../store/modules/library/detail/detail.action';
 
 const OrderModal = ({ setOpenOrderModal, order, isLoading }) => {
-  let { _id, books, user, status } = order;
+  let { _id, books, user } = order;
+  const params = useParams();
+  const dispatch = useDispatch();
   const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState({ ssn: '', phone: '' });
   const statusNames = ['preparing', 'ready', 'delivered', 'received'];
@@ -31,7 +39,7 @@ const OrderModal = ({ setOpenOrderModal, order, isLoading }) => {
   });
 
   const clearFormData = () => {
-    setFormData(null);
+    setFormData({ ssn: '', phone: '' });
   };
 
   const handleClickShowForm = () => {
@@ -48,8 +56,26 @@ const OrderModal = ({ setOpenOrderModal, order, isLoading }) => {
 
   const handleUpdateOrder = () => {
     const checkedStatus = document.querySelector('input[type="radio"]:checked');
-    console.log(formData);
-    console.log(checkedStatus?.value);
+    if (!checkedStatus) {
+      console.log('You must select status'); // It will be alert
+      return;
+    }
+    dispatch(
+      updateOrderStatus({
+        libraryId: params.id,
+        orderId: _id,
+        status: checkedStatus.value,
+      })
+    );
+    if (formData && formData.ssn !== '' && formData.phone !== '') {
+      dispatch(
+        addUserToLibrary({
+          libraryId: params.id,
+          userId: user._id,
+          userData: formData,
+        })
+      );
+    }
   };
 
   return (
@@ -88,24 +114,22 @@ const OrderModal = ({ setOpenOrderModal, order, isLoading }) => {
             </button>
             {showForm && (
               <div className='add-user-form'>
-                <form>
-                  <div className='form-item'>
-                    <label>SSN</label>
-                    <input
-                      name='ssn'
-                      required
-                      autoComplete='off'
-                      onChange={handleOnChange}></input>
-                  </div>
-                  <div className='form-item'>
-                    <label>Phone</label>
-                    <input
-                      name='phone'
-                      required
-                      autoComplete='off'
-                      onChange={handleOnChange}></input>
-                  </div>
-                </form>
+                <div className='form-item'>
+                  <label>SSN</label>
+                  <input
+                    name='ssn'
+                    required
+                    autoComplete='off'
+                    onChange={handleOnChange}></input>
+                </div>
+                <div className='form-item'>
+                  <label>Phone</label>
+                  <input
+                    name='phone'
+                    required
+                    autoComplete='off'
+                    onChange={handleOnChange}></input>
+                </div>
               </div>
             )}
             <div className='button-group'>
@@ -115,7 +139,6 @@ const OrderModal = ({ setOpenOrderModal, order, isLoading }) => {
                 Cancel
               </button>
               <button
-                type='submit'
                 onClick={handleUpdateOrder}
                 className='button button__blue button__small'>
                 {isLoading ? 'Loading ...' : 'Confirm'}

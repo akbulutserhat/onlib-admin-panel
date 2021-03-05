@@ -26,11 +26,64 @@ export const updateBookStock = ({ libraryId, bookId, newStock }) => {
     dispatch({ type: detailTypes.UPDATE_BOOK_STOCK_REQUEST });
     try {
       const res = await axios.put(
-        `${LIBRARY_API_ROUTE}/${libraryId}/${bookId}`,
+        `${LIBRARY_API_ROUTE}/book/${libraryId}/${bookId}`,
         { newStock }
       );
       dispatch({
         type: detailTypes.UPDATE_BOOK_STOCK_SUCCESS,
+        payload: { data: res.data.data },
+      });
+    } catch (err) {
+      dispatch({ type: detailTypes.LIBRARY_DETAIL_ERROR, payload: err });
+    }
+  };
+};
+
+export const updateOrderStatus = ({ libraryId, orderId, status }) => {
+  return async (dispatch) => {
+    dispatch({ type: detailTypes.UPDATE_ORDER_STATUS_REQUEST });
+    try {
+      const res = await axios.put(
+        `${LIBRARY_API_ROUTE}/order/${libraryId}/${orderId}`,
+        { status }
+      );
+      dispatch({
+        type: detailTypes.UPDATE_ORDER_STATUS_SUCCESS,
+        payload: { data: res.data.data },
+      });
+    } catch (err) {
+      dispatch({ type: detailTypes.LIBRARY_DETAIL_ERROR, payload: err });
+    }
+  };
+};
+
+export const addUserToLibrary = ({ libraryId, userId, userData }) => {
+  return async (dispatch) => {
+    dispatch({ type: detailTypes.ADD_USER_TO_LIBRARY_REQUEST });
+    try {
+      const res = await axios.put(
+        `${LIBRARY_API_ROUTE}/user/${libraryId}/${userId}`,
+        { userData }
+      );
+      dispatch({
+        type: detailTypes.ADD_USER_TO_LIBRARY_SUCCESS,
+        payload: { data: res.data.data },
+      });
+    } catch (err) {
+      dispatch({ type: detailTypes.LIBRARY_DETAIL_ERROR, payload: err });
+    }
+  };
+};
+
+export const deleteBookFromLibrary = ({ libraryId, bookId }) => {
+  return async (dispatch) => {
+    dispatch({ type: detailTypes.DELETE_LIBRARY_BOOK_REQUEST });
+    try {
+      const res = await axios.put(
+        `${LIBRARY_API_ROUTE}/book/delete/${libraryId}/${bookId}`
+      );
+      dispatch({
+        type: detailTypes.DELETE_LIBRARY_BOOK_SUCCESS,
         payload: { data: res.data.data },
       });
     } catch (err) {
