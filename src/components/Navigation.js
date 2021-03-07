@@ -60,7 +60,7 @@ const Navigation = ({ hamburgerOpen, closeMenu }) => {
               <span>Libraries</span>
             </li>
           </NavLink>
-          <NavLink exact={true} to='/'>
+          <NavLink to='/users'>
             <li>
               <i className='fas fa-users'></i>
               <span>Users</span>
