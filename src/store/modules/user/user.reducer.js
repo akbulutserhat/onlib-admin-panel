@@ -29,7 +29,7 @@ const userReducer = (state = initState, action) => {
       return {
         ...state,
         isLoading: false,
-        //users: [...state.USERs, action.payload.data],
+        users: [...state.users, action.payload.data],
         count: state.count + 1,
         successMessage: action.payload.message,
       };

@@ -1,4 +1,4 @@
-import * as userTypes from './user.types.types';
+import * as userTypes from './user.types';
 import API_ROUTE from '../../../apiRoute';
 import axios from 'axios';
 
@@ -21,11 +21,16 @@ export const getUsers = ({ page, limit }) => {
   };
 };
 
-export const addUser = ({ formData }) => {
+export const addUser = ({ fullName, email, role, password }) => {
   return async (dispatch) => {
     dispatch({ type: userTypes.ADD_USER_REQUEST });
     try {
-      const res = await axios.post(`${USER_API_ROUTE}`, formData);
+      const res = await axios.post(`${API_ROUTE}/auth/signup`, {
+        fullName,
+        email,
+        role,
+        password,
+      });
       dispatch({
         type: userTypes.ADD_USER_SUCCESS,
         payload: { data: res.data.data, message: res.data.message },

@@ -38,7 +38,6 @@ const Detail = () => {
     { name: 'received', color: 'bg-success' },
   ];
 
-  console.log(library);
   useEffect(() => {
     dispatch(getLibraryDetail({ libraryId: params.id }));
   }, []);
@@ -225,7 +224,7 @@ const Detail = () => {
     const { private_info } = user;
     return (
       <tr key={index}>
-        <td>{user.user.firstName}</td>
+        <td>{user.user.fullName}</td>
         <td>{user.user.email}</td>
         <td>{private_info.ssn}</td>
         <td>{private_info.phone}</td>
