@@ -10,7 +10,7 @@ const CreateUserModal = ({ setOpenCreateModal, isLoading }) => {
     password: '',
   });
   const dispatch = useDispatch();
-  const statusNames = ['basic', 'supervisor', 'admin'];
+  const roleNames = ['basic', 'supervisor', 'admin'];
 
   const handleOnChange = (e) => {
     setFormData({
@@ -29,13 +29,12 @@ const CreateUserModal = ({ setOpenCreateModal, isLoading }) => {
 
     formData.role = checkedRole.value;
     const { fullName, email, role, password } = formData;
-    console.log(role);
     dispatch(addUser({ fullName, email, role, password }));
     e.target.reset();
     setFormData({});
   };
 
-  const roleRadioButtons = statusNames.map((name, index) => {
+  const roleRadioButtons = roleNames.map((name, index) => {
     return (
       <label key={index} className='m-2'>
         <input type='radio' name='radio' value={name} />

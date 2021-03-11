@@ -17,6 +17,11 @@ const Navigation = ({ hamburgerOpen, closeMenu }) => {
           </Link>
         </li>
         <li>
+          <Link onClick={closeMenu} to='/libraries'>
+            Libraries
+          </Link>
+        </li>
+        <li>
           <Link onClick={closeMenu} to='/users'>
             Users
           </Link>
@@ -24,11 +29,6 @@ const Navigation = ({ hamburgerOpen, closeMenu }) => {
         <li>
           <Link onClick={closeMenu} to='/'>
             Test
-          </Link>
-        </li>
-        <li>
-          <Link onClick={closeMenu} to='/'>
-            Long Link Text
           </Link>
         </li>
       </ul>
