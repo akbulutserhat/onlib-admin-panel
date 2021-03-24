@@ -16,9 +16,11 @@ const Routes = () => {
   const [isOpen, setIsOpen] = useState(false); // For hamburger menu
 
   const authState = useSelector((state) => state.Auth);
-  const { isAuthenticated } = authState;
+  const { isAuthenticated, currentUser } = authState;
 
-  const signedStyle = (
+  const { role } = currentUser;
+
+  const adminStyle = (
     <div className='wrapper d-flex'>
       <Navigation
         closeMenu={() => setIsOpen(false)}
@@ -41,6 +43,27 @@ const Routes = () => {
     </div>
   );
 
+  const librarianStyle = (
+    <div className='wrapper d-flex'>
+      <Navigation
+        closeMenu={() => setIsOpen(false)}
+        hamburgerOpen={isOpen}></Navigation>
+      <div className='wrapper d-flex flex-column ml-4'>
+        <Topbar
+          hamburgerClicked={() => setIsOpen(!isOpen)}
+          hamburgerOpen={isOpen}></Topbar>
+        <div className='pages wrapper pr-2'>
+          <Switch>
+            <Route exact path='/' component={Dashboard} />
+            <Route path='/login' component={Login} />
+            <Route path='/books' render={(props) => <Books {...props} />} />
+            <Route path='/library/:id' component={LibraryDetail}></Route>
+          </Switch>
+        </div>
+      </div>
+    </div>
+  );
+
   const signOutStyle = (
     <div className='pages container wrapper d-flex justify-content-center align-items-center'>
       <Switch>
@@ -52,7 +75,11 @@ const Routes = () => {
 
   return (
     <Router history={history}>
-      {isAuthenticated ? signedStyle : signOutStyle}
+      {isAuthenticated
+        ? role == 'admin'
+          ? adminStyle
+          : librarianStyle
+        : signOutStyle}
     </Router>
   );
 };

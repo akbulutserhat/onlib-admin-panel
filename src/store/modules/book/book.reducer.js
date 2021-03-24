@@ -29,7 +29,7 @@ const bookReducer = (state = initState, action) => {
       return {
         ...state,
         isLoading: false,
-        //books: [...state.books, action.payload.data],
+        books: [...state.books, action.payload.data],
         count: state.count + 1,
         successMessage: action.payload.message,
       };
