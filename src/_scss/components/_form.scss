@@ -28,6 +28,11 @@ label {
   margin-bottom: 16px;
 }
 
+select {
+  outline: none;
+  border: 1px solid $textGrey;
+}
+
 input[type='radio'] {
   display: none;
   &:checked {

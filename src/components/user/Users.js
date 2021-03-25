@@ -88,6 +88,9 @@ const UserItems = () => {
 
   const handleSubmitUpdateUser = (e) => {
     e.preventDefault();
+    const checkedRole = document.querySelector('input[type="radio"]:checked');
+    if (checkedRole) updateFormData.role = checkedRole.value;
+
     dispatch(
       updateUser({ userId: updateFormData.id, updateData: updateFormData })
     );

@@ -21,7 +21,7 @@ export const getUsers = ({ page, limit }) => {
   };
 };
 
-export const addUser = ({ fullName, email, role, password }) => {
+export const addUser = ({ fullName, email, role, password, library }) => {
   return async (dispatch) => {
     dispatch({ type: userTypes.ADD_USER_REQUEST });
     try {
@@ -30,6 +30,7 @@ export const addUser = ({ fullName, email, role, password }) => {
         email,
         role,
         password,
+        library,
       });
       dispatch({
         type: userTypes.ADD_USER_SUCCESS,

@@ -1,16 +1,26 @@
 import { addUser } from '../../../store/modules/user/user.action';
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import RadioBox from '../../utils/RadioBox';
+import { getLibraries } from '../../../store/modules/library/library.action';
 
 const CreateUserModal = ({ setOpenCreateModal, isLoading }) => {
   let [formData, setFormData] = useState({
     fullName: '',
     email: '',
     role: '',
+    library: '',
     password: '',
   });
+  const [showLibraryList, setShowLibraryList] = useState(false);
   const dispatch = useDispatch();
+  const libraryState = useSelector((state) => state.Library);
+  const { libraries } = libraryState;
   const roleNames = ['basic', 'supervisor', 'admin'];
+
+  useEffect(() => {
+    dispatch(getLibraries());
+  }, []);
 
   const handleOnChange = (e) => {
     setFormData({
@@ -28,20 +38,30 @@ const CreateUserModal = ({ setOpenCreateModal, isLoading }) => {
     }
 
     formData.role = checkedRole.value;
-    const { fullName, email, role, password } = formData;
-    dispatch(addUser({ fullName, email, role, password }));
+    const { fullName, email, role, password, library } = formData;
+    dispatch(addUser({ fullName, email, role, password, library }));
     e.target.reset();
     setFormData({});
   };
 
+  const handleChangeRadioButton = () => {
+    const checkedValue = document.querySelector('input[type="radio"]:checked')
+      .value;
+
+    if (checkedValue == 'supervisor') {
+      setShowLibraryList(true);
+    } else {
+      setFormData({ ...formData, library: '' });
+      setShowLibraryList(false);
+    }
+  };
+
   const roleRadioButtons = roleNames.map((name, index) => {
     return (
-      <label key={index} className='m-2'>
-        <input type='radio' name='radio' value={name} />
-        <div className='box'>
-          <span>{name}</span>
-        </div>
-      </label>
+      <RadioBox
+        key={index}
+        name={name}
+        onChange={handleChangeRadioButton}></RadioBox>
     );
   });
 
@@ -56,7 +76,7 @@ const CreateUserModal = ({ setOpenCreateModal, isLoading }) => {
         </button>
         <div className='modal-guts'>
           <div className='modal-title'>
-            <span>Create Library</span>
+            <span>Create User</span>
           </div>
           <div className='divider'></div>
           <div className='form-section form-section__h88'>
@@ -93,6 +113,21 @@ const CreateUserModal = ({ setOpenCreateModal, isLoading }) => {
                   {roleRadioButtons}
                 </div>
               </div>
+
+              {showLibraryList && (
+                <div className='form-item'>
+                  <label>Choose Library</label>
+                  <select onChange={handleOnChange} name='library'>
+                    {libraries.map((library) => {
+                      return (
+                        <option key={library._id} value={library._id}>
+                          {library.name}
+                        </option>
+                      );
+                    })}
+                  </select>
+                </div>
+              )}
               <div className='button-group'>
                 <button
                   onClick={() => setOpenCreateModal(false)}

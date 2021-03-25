@@ -5,6 +5,7 @@ import {
   updateOrderStatus,
   addUserToLibrary,
 } from '../../../store/modules/library/detail/detail.action';
+import RadioBox from '../../utils/RadioBox';
 
 const OrderModal = ({ setOpenOrderModal, order, isLoading }) => {
   let { _id, books, user } = order;
@@ -28,14 +29,7 @@ const OrderModal = ({ setOpenOrderModal, order, isLoading }) => {
   });
 
   const statusRadioButtons = statusNames.map((name, index) => {
-    return (
-      <label key={index} className='m-2'>
-        <input type='radio' name='radio' value={name} />
-        <div className='box'>
-          <span>{name}</span>
-        </div>
-      </label>
-    );
+    return <RadioBox key={index} name={name}></RadioBox>;
   });
 
   const clearFormData = () => {

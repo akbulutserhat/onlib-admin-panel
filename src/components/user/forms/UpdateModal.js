@@ -1,3 +1,5 @@
+import RadioBox from '../../utils/RadioBox';
+
 const UpdateUserModal = ({
   setOpenUpdateModal,
   handleSubmitUpdateUser,
@@ -5,6 +7,10 @@ const UpdateUserModal = ({
   updateFormData,
   setUpdateFormData,
 }) => {
+  const roleNames = ['basic', 'supervisor', 'admin'];
+  const roleRadioButtons = roleNames.map((name, index) => {
+    return <RadioBox key={index} name={name}></RadioBox>;
+  });
   const handleUpdateChange = (e) => {
     setUpdateFormData({
       ...updateFormData,
@@ -14,6 +20,14 @@ const UpdateUserModal = ({
   const formItems = Object.entries(updateFormData ? updateFormData : {}).map(
     (entry, index) => {
       if (entry[0] == 'id') return;
+      if (entry[0] == 'role') {
+        return (
+          <div className='form-item d-flex flex-row' key={index}>
+            <label>{entry[0]}</label>
+            {roleRadioButtons}
+          </div>
+        );
+      }
       return (
         <div className='form-item' key={index}>
           <label>{entry[0]}</label>
