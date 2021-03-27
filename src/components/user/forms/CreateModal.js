@@ -118,6 +118,7 @@ const CreateUserModal = ({ setOpenCreateModal, isLoading }) => {
                 <div className='form-item'>
                   <label>Choose Library</label>
                   <select onChange={handleOnChange} name='library'>
+                    <option value=''></option>
                     {libraries.map((library) => {
                       return (
                         <option key={library._id} value={library._id}>

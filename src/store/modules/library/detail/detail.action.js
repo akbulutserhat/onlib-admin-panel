@@ -75,6 +75,23 @@ export const addUserToLibrary = ({ libraryId, userId, userData }) => {
   };
 };
 
+export const addBookToLibrary = ({ libraryId, bookId }) => {
+  return async (dispatch) => {
+    dispatch({ type: detailTypes.ADD_LIBRARY_BOOK_REQUEST });
+    try {
+      const res = await axios.put(
+        `${LIBRARY_API_ROUTE}/book/add/${libraryId}/${bookId}`
+      );
+      dispatch({
+        type: detailTypes.ADD_LIBRARY_BOOK_SUCCESS,
+        payload: { data: res.data.data },
+      });
+    } catch (err) {
+      dispatch({ type: detailTypes.LIBRARY_DETAIL_ERROR, payload: err });
+    }
+  };
+};
+
 export const deleteBookFromLibrary = ({ libraryId, bookId }) => {
   return async (dispatch) => {
     dispatch({ type: detailTypes.DELETE_LIBRARY_BOOK_REQUEST });

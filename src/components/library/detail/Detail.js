@@ -10,8 +10,17 @@ import { useParams } from 'react-router-dom';
 import { useState } from 'react';
 
 const Detail = () => {
+  const authState = useSelector((state) => state.Auth);
+  const { role, libraryId } = authState.currentUser;
   const params = useParams();
   const dispatch = useDispatch();
+  let currentLibraryId;
+  if (role == 'admin') {
+    currentLibraryId = params.id;
+  }
+  if (role == 'supervisor') {
+    currentLibraryId = libraryId;
+  }
   const libraryDetailState = useSelector((state) => state.LibraryDetail);
   const { library, isLoading } = libraryDetailState;
   const [updateStockBoxInfo, setUpdateStockBoxInfo] = useState({
@@ -39,7 +48,7 @@ const Detail = () => {
   ];
 
   useEffect(() => {
-    dispatch(getLibraryDetail({ libraryId: params.id }));
+    dispatch(getLibraryDetail({ libraryId: currentLibraryId }));
   }, []);
 
   const showUpdateStockBox = (bookId, e, stock) => {
@@ -71,7 +80,7 @@ const Detail = () => {
   const handleUpdateStock = () => {
     dispatch(
       updateBookStock({
-        libraryId: params.id,
+        libraryId: currentLibraryId,
         bookId: updateStockBoxInfo.bookId,
         newStock: updateStockBoxInfo.stock,
       })
@@ -121,7 +130,7 @@ const Detail = () => {
   const handleDeleteBook = () => {
     dispatch(
       deleteBookFromLibrary({
-        libraryId: params.id,
+        libraryId: currentLibraryId,
         bookId: deleteBookBoxInfo.bookId,
       })
     );

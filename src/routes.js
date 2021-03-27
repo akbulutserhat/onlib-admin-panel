@@ -29,7 +29,7 @@ const Routes = () => {
         <Topbar
           hamburgerClicked={() => setIsOpen(!isOpen)}
           hamburgerOpen={isOpen}></Topbar>
-        <div className='pages wrapper pr-2'>
+        <div className='pages pr-2'>
           <Switch>
             <Route exact path='/' component={Dashboard} />
             <Route path='/login' component={Login} />
@@ -52,12 +52,11 @@ const Routes = () => {
         <Topbar
           hamburgerClicked={() => setIsOpen(!isOpen)}
           hamburgerOpen={isOpen}></Topbar>
-        <div className='pages wrapper pr-2'>
+        <div className='pages pr-2'>
           <Switch>
-            <Route exact path='/' component={Dashboard} />
+            <Route exact path='/' component={LibraryDetail} />
             <Route path='/login' component={Login} />
             <Route path='/books' render={(props) => <Books {...props} />} />
-            <Route path='/library/:id' component={LibraryDetail}></Route>
           </Switch>
         </div>
       </div>

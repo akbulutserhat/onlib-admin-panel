@@ -25,16 +25,17 @@ export const addUser = ({ fullName, email, role, password, library }) => {
   return async (dispatch) => {
     dispatch({ type: userTypes.ADD_USER_REQUEST });
     try {
-      const res = await axios.post(`${API_ROUTE}/auth/signup`, {
+      const res = await axios.post(`${API_ROUTE}/auth/add-user`, {
         fullName,
         email,
         role,
         password,
         library,
       });
+      console.log(res.data);
       dispatch({
         type: userTypes.ADD_USER_SUCCESS,
-        payload: { data: res.data.data, message: res.data.message },
+        payload: { data: res.data, message: res.data.message },
       });
     } catch (err) {
       dispatch({ type: userTypes.USER_ERROR, payload: err });

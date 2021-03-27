@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { Link, NavLink } from 'react-router-dom';
 import Logo from '../assets/logo_v3.png';
 
 const Navigation = ({ hamburgerOpen, closeMenu }) => {
+  const authState = useSelector((state) => state.Auth);
+  const { role } = authState.currentUser;
   const mobileNavigation = (
     <nav className='mobile-navbar'>
       <ul className='mobile-list'>
@@ -16,16 +19,20 @@ const Navigation = ({ hamburgerOpen, closeMenu }) => {
             Books
           </Link>
         </li>
-        <li>
-          <Link onClick={closeMenu} to='/libraries'>
-            Libraries
-          </Link>
-        </li>
-        <li>
-          <Link onClick={closeMenu} to='/users'>
-            Users
-          </Link>
-        </li>
+        {role == 'admin' && (
+          <>
+            <li>
+              <Link onClick={closeMenu} to='/libraries'>
+                Libraries
+              </Link>
+            </li>
+            <li>
+              <Link onClick={closeMenu} to='/users'>
+                Users
+              </Link>
+            </li>
+          </>
+        )}
         <li>
           <Link onClick={closeMenu} to='/'>
             Test
@@ -54,24 +61,22 @@ const Navigation = ({ hamburgerOpen, closeMenu }) => {
               <span>Books</span>
             </li>
           </NavLink>
-          <NavLink exact={true} to='/libraries'>
-            <li>
-              <i className='fas fa-hotel'></i>
-              <span>Libraries</span>
-            </li>
-          </NavLink>
-          <NavLink to='/users'>
-            <li>
-              <i className='fas fa-users'></i>
-              <span>Users</span>
-            </li>
-          </NavLink>
-          <NavLink exact={true} to='/'>
-            <li>
-              <i className='fas fa-tachometer-alt'></i>
-              <span>Test</span>
-            </li>
-          </NavLink>
+          {role == 'admin' && (
+            <>
+              <NavLink exact={true} to='/libraries'>
+                <li>
+                  <i className='fas fa-hotel'></i>
+                  <span>Libraries</span>
+                </li>
+              </NavLink>
+              <NavLink to='/users'>
+                <li>
+                  <i className='fas fa-users'></i>
+                  <span>Users</span>
+                </li>
+              </NavLink>
+            </>
+          )}
         </ul>
         <div className='settings-wrapper'>
           <i className='fas fa-cog'></i>
