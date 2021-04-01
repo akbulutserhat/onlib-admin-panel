@@ -11,6 +11,13 @@
     margin-bottom: 6px;
     color: darken($textGrey, 40);
     text-align: center;
+    position: relative;
+
+    .search-input {
+      position: absolute;
+      left: 0;
+      top: 0;
+    }
   }
 
   .header-labels {

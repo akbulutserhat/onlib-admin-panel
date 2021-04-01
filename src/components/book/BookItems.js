@@ -23,7 +23,7 @@ const BookItems = () => {
     yCoordinate: 0,
   });
   let [formData, setFormData] = useState();
-  const [updateFormData, setUpdateFormData] = useState();
+  let [updateFormData, setUpdateFormData] = useState();
   const bookState = useSelector((state) => state.Book);
   const { books, count, isLoading, successMessage } = bookState;
   const pageCount =
@@ -109,6 +109,9 @@ const BookItems = () => {
 
   const handleSubmitUpdateBook = (e) => {
     e.preventDefault();
+    let { categories } = updateFormData;
+    if (typeof categories == 'string') categories = categories.split(',');
+    updateFormData = { ...updateFormData, categories };
     dispatch(
       updateBook({ bookId: updateFormData.id, updateData: updateFormData })
     );

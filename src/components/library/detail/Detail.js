@@ -8,6 +8,7 @@ import {
 import OrderModal from './OrderModal';
 import { useParams } from 'react-router-dom';
 import { useState } from 'react';
+import { searchOrderWithId } from '../../../helpers/search';
 
 const Detail = () => {
   const authState = useSelector((state) => state.Auth);
@@ -37,6 +38,7 @@ const Detail = () => {
     yCoordinate: 0,
   });
 
+  const [orders, setOrders] = useState([]);
   const [openOrderModal, setOpenOrderModal] = useState();
   const [orderData, setOrderData] = useState();
 
@@ -50,6 +52,10 @@ const Detail = () => {
   useEffect(() => {
     dispatch(getLibraryDetail({ libraryId: currentLibraryId }));
   }, []);
+
+  useEffect(() => {
+    setOrders(library?.orders?.slice());
+  }, [library]);
 
   const showUpdateStockBox = (bookId, e, stock) => {
     setUpdateStockBoxInfo({
@@ -194,7 +200,7 @@ const Detail = () => {
     setOpenOrderModal(true);
   };
 
-  const allOrders = library?.orders?.map((order, index) => {
+  const allOrders = orders?.map((order, index) => {
     let { order_date, status, _id } = order;
     status = statusNameAndColors.filter((item) => item.name == status)[0];
     const fullDate = new Date(order_date);
@@ -241,6 +247,11 @@ const Detail = () => {
     );
   });
 
+  const handleSearchOrder = (e) => {
+    const filteringOrders = searchOrderWithId(e.target.value, library.orders);
+    setOrders(filteringOrders);
+  };
+
   return (
     <div className='library-detail'>
       <div className='books-section'>
@@ -255,7 +266,16 @@ const Detail = () => {
       </div>
       <div className='orders-users'>
         <div className='orders-section'>
-          <div className='title'>Orders</div>
+          <div className='title'>
+            {' '}
+            <input
+              type='text'
+              name='search-book'
+              className='search-input'
+              placeholder='Search...'
+              onChange={handleSearchOrder}></input>
+            Orders
+          </div>
           <div className='header-labels'>
             <span className='item-label'>ID</span>
             <span className='item-label ml-3'>Date</span>
