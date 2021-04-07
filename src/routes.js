@@ -25,7 +25,7 @@ const Routes = () => {
       <Navigation
         closeMenu={() => setIsOpen(false)}
         hamburgerOpen={isOpen}></Navigation>
-      <div className='wrapper d-flex flex-column ml-4'>
+      <div className='wrapper d-flex flex-column ml-1  ml-md-4'>
         <Topbar
           hamburgerClicked={() => setIsOpen(!isOpen)}
           hamburgerOpen={isOpen}></Topbar>
@@ -48,7 +48,7 @@ const Routes = () => {
       <Navigation
         closeMenu={() => setIsOpen(false)}
         hamburgerOpen={isOpen}></Navigation>
-      <div className='wrapper d-flex flex-column ml-4'>
+      <div className='wrapper d-flex flex-column ml-1  ml-md-4'>
         <Topbar
           hamburgerClicked={() => setIsOpen(!isOpen)}
           hamburgerOpen={isOpen}></Topbar>

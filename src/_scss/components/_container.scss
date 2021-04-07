@@ -8,5 +8,8 @@
 
 .pages {
   width: 100%;
-  height: calc(100% - 72px);
+
+  @media (min-width: 768px) {
+    height: calc(100% - 72px);
+  }
 }

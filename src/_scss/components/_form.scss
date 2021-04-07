@@ -20,6 +20,10 @@ label {
 
 .search-input {
   width: 220px;
+
+  @media (max-width: 768px) {
+    width: 120px;
+  }
 }
 
 .form-item {

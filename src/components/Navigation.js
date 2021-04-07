@@ -33,17 +33,12 @@ const Navigation = ({ hamburgerOpen, closeMenu }) => {
             </li>
           </>
         )}
-        <li>
-          <Link onClick={closeMenu} to='/'>
-            Test
-          </Link>
-        </li>
       </ul>
     </nav>
   );
 
   return (
-    <div>
+    <>
       <nav className='custom-navbar d-none d-md-flex'>
         <div className='logo-wrapper'>
           <img className='logo' src={Logo}></img>
@@ -84,7 +79,7 @@ const Navigation = ({ hamburgerOpen, closeMenu }) => {
         </div>
       </nav>
       {hamburgerOpen && mobileNavigation}
-    </div>
+    </>
   );
 };
 

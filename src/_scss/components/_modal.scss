@@ -11,34 +11,21 @@
 }
 
 .custom-modal {
-  /* This way it could be display flex or grid or whatever also. */
   display: block;
-
-  /* Probably need media queries here */
-
   max-width: 100%;
-
   max-height: 100%;
-
-  //position: fixed;
-
   width: 32%;
   height: 100%;
-
   z-index: 100;
-
   right: 0;
   top: 0;
-
-  /* for centering if unknown width/height */
-  //transform: translate(-5%, -50%);
-
   background: $white;
-  //box-shadow: 0 0 30px 2px rgba($electric-green,.5);
-
   position: absolute;
-
   animation: showInFade 1s;
+
+  @media (max-width: 768px) {
+    width: 75%;
+  }
 
   .close-button {
     position: absolute;

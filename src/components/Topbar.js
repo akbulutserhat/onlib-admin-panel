@@ -31,24 +31,26 @@ const Topbar = ({ hamburgerOpen, hamburgerClicked }) => {
         )}
       </div>
       {isDetailPage && (
-        <Link className='mt-3 text-black-50' to={state.prevPath}>
+        <Link
+          className='mt-3 text-black-50 d-none d-md-block'
+          to={state.prevPath}>
           <i className='fas fa-arrow-left'></i> Go Back
         </Link>
       )}
 
       {!isDetailPage && (
-        <h3 className='page-name'>
+        <h3 className='page-name d-none d-md-block'>
           {title ? capitalizedTitle : 'Dashboard'} Page
         </h3>
       )}
       <div className='user-info d-flex'>
-        <div className='user d-flex flex-column'>
+        <div className='user d-md-flex flex-column d-none'>
           <span className='name'>{fullName}</span>
           <small className='role align-self-end'>{role}</small>
         </div>
         <img
           src={Default}
-          className='ml-2'
+          className='ml-2 d-none d-md-block'
           style={{ width: 36 + 'px', height: 36 + 'px' }}></img>
         <button
           className='button button__icon button__blue ml-4'

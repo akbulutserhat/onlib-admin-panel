@@ -200,26 +200,38 @@ const Detail = () => {
     setOpenOrderModal(true);
   };
 
-  const allOrders = orders?.map((order, index) => {
+  const orderHeaderAttributes = ['ID', 'Date', 'Status'];
+
+  const fillOrderTableHead = (
+    <tr>
+      {orderHeaderAttributes.map((attr, index) => (
+        <th scope='col' key={index}>
+          {attr}
+        </th>
+      ))}
+    </tr>
+  );
+
+  const fillOrderTableBody = orders?.map((order, index) => {
     let { order_date, status, _id } = order;
     status = statusNameAndColors.filter((item) => item.name == status)[0];
     const fullDate = new Date(order_date);
     const localeDate = fullDate.toLocaleDateString();
     const localeTime = fullDate.toLocaleTimeString();
     return (
-      <div className='item' key={index}>
-        <div className='id-column' onClick={() => showOrderDetail(order)}>
-          <span>{_id}</span>
-        </div>
-        <div className='date-column'>
-          <span>{localeDate}</span>
+      <tr key={index}>
+        <td onClick={() => showOrderDetail(order)}>{_id}</td>
+        <td>
+          {localeDate}
           {' - '}
-          <span>{localeTime}</span>
-        </div>
-        <div className={`status-column badge ${status.color}`}>
-          <span>{status.name}</span>
-        </div>
-      </div>
+          {localeTime}
+        </td>
+        <td>
+          <span className={`status-column badge ${status.color}`}>
+            {status.name}
+          </span>
+        </td>
+      </tr>
     );
   });
 
@@ -253,8 +265,8 @@ const Detail = () => {
   };
 
   return (
-    <div className='library-detail'>
-      <div className='books-section'>
+    <div className='library-detail d-flex flex-column flex-md-row'>
+      <div className='books-section mb-4 mb-md-0'>
         <div className='title'>Books</div>
         {library?.books?.length == 0 ? (
           <div className='d-flex justify-content-center align-items-center w-100 h-75'>
@@ -276,17 +288,19 @@ const Detail = () => {
               onChange={handleSearchOrder}></input>
             Orders
           </div>
-          <div className='header-labels'>
-            <span className='item-label'>ID</span>
-            <span className='item-label ml-3'>Date</span>
-            <span className='item-label mr-1'>Status</span>
-          </div>
           {library?.orders?.length == 0 ? (
             <div className='d-flex justify-content-center align-items-center w-100 h-75'>
               There is no order!
             </div>
           ) : (
-            allOrders
+            <div className='table-responsive'>
+              <table className='table table-borderless'>
+                <thead>{fillOrderTableHead}</thead>
+                <tbody style={{ fontFamily: 'monospace', fontSize: '12px' }}>
+                  {fillOrderTableBody}
+                </tbody>
+              </table>
+            </div>
           )}
         </div>
         <div className='users-section'>
