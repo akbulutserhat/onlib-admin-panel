@@ -5,6 +5,7 @@
 
   &:disabled {
     background: $textGrey;
+    color: $white;
 
     &:hover {
       background: $textGrey;

@@ -1,5 +1,10 @@
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { addBookToLibrary } from '../../store/modules/library/detail/detail.action';
+import { isBookAddedToLibrary } from '../../helpers/book';
+import {
+  addBookToLibrary,
+  getLibraryDetail,
+} from '../../store/modules/library/detail/detail.action';
 
 const Table = ({
   books,
@@ -16,6 +21,12 @@ const Table = ({
   const authState = useSelector((state) => state.Auth);
   const { role, libraryId } = authState.currentUser;
 
+  const libraryDetailState = useSelector((state) => state.LibraryDetail);
+  const { library } = libraryDetailState;
+
+  useEffect(() => {
+    dispatch(getLibraryDetail({ libraryId }));
+  }, []);
   const fillTableHead = (
     <tr>
       {headerAttributes.map((attr, index) => (
@@ -58,11 +69,16 @@ const Table = ({
               <td>{author}</td>
               <td>
                 <div className='action-buttons d-flex justify-content-end'>
-                  {role == 'supervisor' && (
+                  {role == 'supervisor' &&
+                  !isBookAddedToLibrary(book, library?.books) ? (
                     <button
                       className='button button__green'
                       onClick={() => handleAddBookToLibrary(_id)}>
                       Add
+                    </button>
+                  ) : (
+                    <button className='button' disabled>
+                      Added
                     </button>
                   )}
                   {role == 'admin' && (
