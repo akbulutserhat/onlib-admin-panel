@@ -69,31 +69,33 @@ const Table = ({
               <td>{author}</td>
               <td>
                 <div className='action-buttons d-flex justify-content-end'>
-                  {role == 'supervisor' &&
-                  !isBookAddedToLibrary(book, library?.books) ? (
-                    <button
-                      className='button button__green'
-                      onClick={() => handleAddBookToLibrary(_id)}>
-                      Add
-                    </button>
+                  {role == 'supervisor' ? (
+                    !isBookAddedToLibrary(book, library?.books) ? (
+                      <button
+                        className='button button__green'
+                        onClick={() => handleAddBookToLibrary(_id)}>
+                        Add
+                      </button>
+                    ) : (
+                      <button className='button' disabled>
+                        Added
+                      </button>
+                    )
                   ) : (
-                    <button className='button' disabled>
-                      Added
-                    </button>
-                  )}
-                  {role == 'admin' && (
-                    <>
-                      <button
-                        onClick={() => handleUpdateModal(book)}
-                        className='button button__transparent mr-1'>
-                        <i className='fas fa-edit text-primary'></i>
-                      </button>
-                      <button
-                        onClick={(e) => handleShowConfirmBox(_id, e)}
-                        className='button button__transparent'>
-                        <i className='fas fa-trash text-danger'></i>
-                      </button>
-                    </>
+                    role == 'admin' && (
+                      <>
+                        <button
+                          onClick={() => handleUpdateModal(book)}
+                          className='button button__transparent mr-1'>
+                          <i className='fas fa-edit text-primary'></i>
+                        </button>
+                        <button
+                          onClick={(e) => handleShowConfirmBox(_id, e)}
+                          className='button button__transparent'>
+                          <i className='fas fa-trash text-danger'></i>
+                        </button>
+                      </>
+                    )
                   )}
                 </div>
               </td>
